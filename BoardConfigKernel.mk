@@ -1,0 +1,28 @@
+DEVICE_KERNEL_PATH := device/vtech/uyt4-kernel
+
+# Boot Image
+BOARD_CUSTOM_BOOTIMG := true
+BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_KERNEL_PATH)/mkbootimg.mk
+
+BOARD_KERNEL_CMDLINE := console=ttyFIQ0 androidboot.baseband=N/A androidboot.wificountrycode=US androidboot.hardware=rk30board androidboot.console=ttyFIQ0
+BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/etc/firmware init=/init rootwait ro loop.max_part=7 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery
+BOARD_BOOTIMG_HEADER_VERSION := 2
+BOARD_KERNEL_BASE := 0x10000000
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_RAMDISK_OFFSET := 0x01000000
+BOARD_KERNEL_TAGS_OFFSET := 0x00000100
+BOARD_KERNEL_SECOND_OFFSET := 0x00f00000
+BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
+BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
+BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
+BOARD_MKBOOTIMG_ARGS += --second_offset $(BOARD_KERNEL_SECOND_OFFSET)
+
+# Kernel
+BOARD_KERNEL_IMAGE_NAME := Image
+TARGET_FORCE_PREBUILT_KERNEL := true
+TARGET_PREBUILT_KERNEL := $(DEVICE_KERNEL_PATH)/Image
+TARGET_PREBUILT_DTB := $(DEVICE_KERNEL_PATH)/dtb.img
+BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
+BOARD_KERNEL_SEPARATED_DTBO := true
+BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_KERNEL_PATH)/dtbo.img
+BOARD_PREBUILT_RESOURCEIMAGE := $(DEVICE_KERNEL_PATH)/resource.img
